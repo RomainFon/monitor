@@ -12,6 +12,7 @@ services:
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
     networks:
+      - traefik-network
       - monitoring
     labels:
       - "traefik.enable=true"
@@ -64,6 +65,7 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=${GRAFANA_USERS_ALLOW_SIGN_UP}
     networks:
       - monitoring
+      - traefik-network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_network"
@@ -72,16 +74,6 @@ services:
       - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.routers.grafana.tls.certresolver=letsencrypt"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-    restart: unless-stopped
-
-  traefik-exporter:
-    image: containous/traefik-service-exporter:v0.1.0
-    container_name: traefik-exporter
-    command:
-      - '--traefik.url=http://traefik:8080'
-    networks:
-      - monitoring
-      - traefik-network
     restart: unless-stopped
 
 networks:
