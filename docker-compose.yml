@@ -12,7 +12,7 @@ services:
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
     networks:
-      - traefik-network
+      - traefik_network
       - monitoring
     labels:
       - "traefik.enable=true"
@@ -65,7 +65,7 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=${GRAFANA_USERS_ALLOW_SIGN_UP}
     networks:
       - monitoring
-      - traefik-network
+      - traefik_network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_network"
@@ -79,7 +79,7 @@ services:
 networks:
   monitoring:
     driver: bridge
-  traefik-network:
+  traefik_network:
     external: true
 
 volumes:
